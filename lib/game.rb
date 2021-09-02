@@ -35,7 +35,7 @@ class Game
   end
 
   def display
-    puts "asdfghkl;qwertyuicnxm,z>cnzxm,fldsjflahrioeqhriqw\n\n"
+    puts "You'll have #{random_word.length} chances for incorrect guessess! One letter at a time. Your life depends on this game!\n\n"
     puts "Your previous incorrectly guessed letters: #{@incorrect_letters.join(', ')}"
     puts "Your incorrect guessess: #{@guessess}\n"
     puts @display_word.join(' ')
