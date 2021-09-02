@@ -18,10 +18,10 @@ class Game
 
       input = ask_input
 
-      break if check_letter
       puts '--------------------'
-      if check_letter(input)
+      if check_letter?(input)
         reveal_letters(input)
+        break if check_word
         next
       end
       @guessess += 1
@@ -41,7 +41,7 @@ class Game
     puts @display_word.join(' ')
   end
 
-  def check_letter(input)
+  def check_letter?(input)
     return true if @random_word.include?(input)
     false
   end
