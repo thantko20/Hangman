@@ -28,8 +28,22 @@ class Game
     loop do
       # Have to create the display(I should create it as another method)
       display
+
       # Ask the player the letter(Allow only one letter and taking the input as case insensitve)
-      break
+      input = ask_input
+      # have to create a method that checks, 
+      # if check_letter return false, increment guessess. If true, continue to next loop
+      if check_letter(input)
+        # I have to create a method for substituting the letter into display_word array
+        reveal_letters(input)
+        next
+      end
+      @guessess += 1
+      
+      if @guessess == @random_word.length
+        puts "You lost! You are a dead man now! The word is #{@random_word}"
+        break
+      end
     end
   end
 
@@ -39,8 +53,31 @@ class Game
     puts "asdfghkl;qwertyuicnxm,z>cnzxm,fldsjflahrioeqhriqw"
     
     # the rest
-    puts "Your incorrect guessess: #{guessess}"
+    puts "Your incorrect guessess: #{@guessess}"
     puts @display_word.join(' ')
     puts @incorrect_letters.join(', ')
+  end
+
+  def check_letter(input)
+    # if the word includes the input letter, return true
+    return true if @random_word.include?(input)
+    false
+  end
+
+  def ask_input
+    input = gets.chomp.to_s.upcase
+    unless input.length == 1
+      puts "Enter only one letter"
+      ask_input
+    else
+      return input
+    end
+  end
+
+  # Gotta diplay the correct letters
+  def reveal_letters(input)
+    # I will use a loop,
+    # using index
+    @random_word.split('').each_with_index { |char, i| @display_word[i] = input if char == input}
   end
 end
