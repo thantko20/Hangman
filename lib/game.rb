@@ -1,11 +1,9 @@
-require_relative 'load'
+require_relative 'data'
 require 'json'
 
 class Game
-  include Loadables
+  include Data
 
-  # So I have to initialize the game from start if the user doesn't want to load saved files
-  # So I'm gonna give init method default parameters
   attr_reader :random_word, :display_word, :incorrect_letters, :guessess
 
   def initialize(word=generate_word, display_word=Array.new(word.length) { '_' }, incorrect=[], guessess=0)
@@ -13,6 +11,12 @@ class Game
     @display_word = display_word
     @incorrect_letters = incorrect
     @guessess = guessess
+  end
+
+  def self.load_game(name)
+    file = File.read("saved_games/#{name}.json")
+    state = JSON.parse(file)
+    Game.new(state['random_word'], state['display_word'], state['incorrect_letters'], state['guessess'])
   end
 
   def play
@@ -58,9 +62,9 @@ class Game
 
   def ask_input
     input = gets.chomp.to_s.upcase
-    if input.upcase == 'SAVE'
-      save_game
-    elsif !input.length == 1
+    return save_game if input.upcase == 'SAVE'
+
+    if !input.length == 1
       puts 'Enter only one letter'
       ask_input
     else
