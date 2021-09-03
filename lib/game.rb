@@ -42,6 +42,7 @@ class Game
 
   def display
     puts "You'll have #{random_word.length} chances for incorrect guessess! One letter at a time. Your life depends on this game!\n\n"
+    puts "Type 'SAVE' to save the current state of the game.\n\n"
     puts "Your previous incorrectly guessed letters: \e[36m#{@incorrect_letters.join(', ')}\e[0m"
     puts "Your incorrect guessess: #{@guessess}\n"
     puts @display_word.join(' ')
@@ -64,9 +65,10 @@ class Game
 
   def ask_input
     input = gets.chomp.to_s.upcase
-    return save_game if input.upcase == 'SAVE'
 
-    if !input.length == 1
+    if input.upcase == 'SAVE'
+      save_game
+    elsif input.length != 1
       puts 'Enter only one letter'
       ask_input
     else
