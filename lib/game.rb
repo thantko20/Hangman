@@ -2,7 +2,7 @@ require_relative 'data'
 require 'json'
 
 class Game
-  include Data
+  include Helper
 
   attr_reader :random_word, :display_word, :incorrect_letters, :guessess
 

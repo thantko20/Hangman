@@ -1,4 +1,3 @@
-require_relative 'main_helper'
 require_relative 'game'
 
 def ask_state

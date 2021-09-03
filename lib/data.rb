@@ -1,4 +1,4 @@
-module Data
+module Helper
   def generate_word
     File.open('dictionary/dictionary.txt', 'r') do |file|
       word = file.readlines.sample.chomp
