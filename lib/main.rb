@@ -16,7 +16,7 @@ def ask_state
 end
 
 def ask_file
-  puts "Here are your saved games: \e[32m#{Dir.entries('saved_games')}\e[0m"
+  puts "Here are your saved games: \e[32m#{Dir.entries('saved_games').join(' ')}\e[0m"
   name = gets.chomp.to_s
   if !File.exist?("saved_games/#{name}.json")
     puts 'Type a valid file.'
@@ -26,10 +26,19 @@ def ask_file
   end
 end
 
+def another_game?
+  puts 'Do you want to play again?(Y/n)'
+  input = gets.chomp.to_s.downcase
+  case input.upcase
+  when 'Y'
+    true
+  when 'N'
+    false
+  end
+end
+
 loop do
   game = ask_state
   game.play
-  puts 'Do you want to play again?(Y/n)'
-  input = gets.chomp.to_s.downcase
-  break if input == 'n'
+  break unless another_game?
 end
