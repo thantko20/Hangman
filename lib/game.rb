@@ -3,11 +3,11 @@ require_relative 'load'
 class Game
   include Loadable
 
-  attr_reader :random_word
-  attr_accessor :display_word, :incorrect_letters, :guessess
+  attr_reader :random_word, :display_word, :incorrect_letters, :guessess
+
   def initialize
     @random_word = generate_word
-    @display_word = Array.new(@random_word.length) { "_" }
+    @display_word = Array.new(@random_word.length) { '_' }
     @incorrect_letters = Array.new
     @guessess = 0
   end
@@ -15,22 +15,18 @@ class Game
   def play
     loop do
       display
-
       input = ask_input
-
       puts '--------------------'
       if check_letter?(input)
         reveal_letters(input)
         break if check_word
+
         next
       end
       @guessess += 1
       @incorrect_letters.push(input)
-      
-      if @guessess == @random_word.length
-        puts "You lost! You are a dead man now! The word is #{@random_word}"
-        break
-      end
+
+      break if check_guess_count?
     end
   end
 
@@ -43,6 +39,7 @@ class Game
 
   def check_letter?(input)
     return true if @random_word.include?(input)
+
     false
   end
 
@@ -56,15 +53,23 @@ class Game
 
   def ask_input
     input = gets.chomp.to_s.upcase
-    unless input.length == 1
-      puts "Enter only one letter"
+    if !input.length == 1
+      puts 'Enter only one letter'
       ask_input
     else
-      return input
+      input
     end
   end
 
   def reveal_letters(input)
-    @random_word.split('').each_with_index { |char, i| @display_word[i] = input if char == input}
+    @random_word.split('').each_with_index { |char, i| @display_word[i] = input if char == input }
+  end
+
+  def check_guess_count?
+    if @guessess == @random_word.length
+      puts "You lost! You are a dead man now! The word is #{@random_word}"
+      return true
+    end
+    false
   end
 end
